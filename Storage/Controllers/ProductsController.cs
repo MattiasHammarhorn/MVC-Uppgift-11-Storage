@@ -153,5 +153,30 @@ namespace Storage.Controllers
         {
             return _context.Product.Any(e => e.Id == id);
         }
+
+        public async Task<IActionResult> NewView()
+        {
+            IEnumerable<ProductViewModel> model =  await _context.Product.Select(p => new ProductViewModel {
+                Name = p.Name,
+                Price = p.Price,
+                Count = p.Count,
+                InventoryValue =+ p.Price
+            }).ToListAsync();
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> SearchByCategory(string category)
+        {
+            var model = await _context.Product.Where(p => p.Category == category)
+                .Select(p => new ProductViewModel {
+                    Name = p.Name,
+                    Price = p.Price,
+                    Count = p.Count,
+                    InventoryValue =+ p.Price
+                }).ToListAsync();
+
+            return View("NewView", model);
+        }
     }
 }
