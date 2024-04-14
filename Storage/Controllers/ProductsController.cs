@@ -154,7 +154,7 @@ namespace Storage.Controllers
             return _context.Product.Any(e => e.Id == id);
         }
 
-        public async Task<IActionResult> NewView()
+        public async Task<IActionResult> List()
         {
             IEnumerable<ProductViewModel> model =  await _context.Product.Select(p => new ProductViewModel {
                 Name = p.Name,
@@ -176,7 +176,7 @@ namespace Storage.Controllers
                     InventoryValue =+ p.Price
                 }).ToListAsync();
 
-            return View("NewView", model);
+            return View("List", model);
         }
     }
 }
